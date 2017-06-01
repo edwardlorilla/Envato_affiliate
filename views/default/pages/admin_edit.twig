@@ -1,0 +1,58 @@
+{% set pageTitle = 'Edit page' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-15">
+
+<script type="text/javascript">
+tinymce.init({
+    selector: '#content',
+    plugins: 'link image code',
+    relative_urls: false
+});
+</script>
+
+		<form method="post" action="{{ siteUrl('/admin/pages/edit/' ~ page.id) }}" id="form" role="form" accept-charset="UTF-8">
+			<div class="row">
+				<div class="form-group">
+					<label>Page name</label>
+					<input type="text" name="alias" id="alias" class="form-control" value="{{ page.alias }}">
+					<p class="help-block">This would be page address.</p>
+				</div>
+				<div class="form-group">
+					<label>Page title</label>
+					<input type="text" name="title" id="title" class="form-control" value="{{ page.title }}">
+					<p class="help-block">This would be page  title on title bar.</p>
+				</div>
+				<div class="form-group">
+					<label>Page content</label>
+					<textarea name="content" id="content" class="form-control" rows="10">{{ page.content }}</textarea>
+				</div>
+				<div class="form-group">
+					<label>Display in footer</label>
+					<select name="footer" id="footer" class="form-control">
+						<option value="0"{% if page.footer == 0 %} selected="selected" {% endif %}>Disable</option>
+						<option value="1"{% if page.footer == 1 %} selected="selected" {% endif %}>Enable</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Meta description</label>
+					<input type="text" name="meta_description" id="meta_description" class="form-control" value="{{ page.meta_description }}">
+					<p class="help-block">This would be page meta description.</p>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary">Submit</button>
+					<a href="{{ siteUrl('/admin/pages') }}" class="btn btn-warning">Cancel</a>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</div>
+<!-- /container -->
+{% endblock %}

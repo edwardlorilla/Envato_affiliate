@@ -1,0 +1,47 @@
+{% set pageTitle = 'Edit source' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-15">
+
+		<form method="post" action="{{ siteUrl('/admin/sources/edit/' ~ source.id) }}" id="form" role="form" accept-charset="UTF-8">
+			<div class="row">
+				<div class="col-md-15 form-group">
+					<label>Feed URL</label>
+                    <input class="form-control" name="url" type="text" id="url" value="{{ source.url }}" />
+					{#<p class="help-block">Enter one url per line.</p>#}
+				</div>
+                <div class="col-md-15 form-group">
+					<label>Feed Title</label>
+                    <input class="form-control" name="title" type="text" id="title" value="{{ source.title }}" />
+					{#<p class="help-block">Enter one url per line.</p>#}
+				</div>
+				<div class="col-md-15 form-group">
+					<label>Category</label>
+					{% spaceless %}
+                    <select class="form-control" name="category_id" id="category_id" data-live-search="true">
+                        {% for category in categories %}
+                            <option class="depth-{{ category.depth }}" value="{{ category.id }}"{% if category.category_id == 0 %} disabled="disabled"{% endif %}{% if category.id == source.category_id %} selected="selected"{% endif %}>
+                                {{ category.name | replace({'->':"- "}) }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    {% endspaceless %}
+					<p class="help-block">Select category of source.</p>
+				</div>
+				<div class="col-md-15 form-group">
+					<button type="submit" class="btn btn-primary">Submit</button>
+					<a href="{{ siteUrl('/admin/sources') }}" class="btn btn-warning">Cancel</a>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</div>
+<!-- /container -->
+{% endblock %}

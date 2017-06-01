@@ -1,0 +1,65 @@
+{% set pageTitle = 'Settings' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-15">
+		{% include 'elements/admin_alert.twig' %}
+		{# <p class="pull-right">
+			<a href="{{ siteUrl('/admin/settings/add') }}" class="btn btn-primary">Add New Setting</a>
+		</p> #}
+		<table class="table table-curved table-striped">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Value</th>
+					<th>Help</th>
+					{# <th>Action</th> #}
+				</tr>
+			</thead>
+			<tbody>
+				{% for setting in settings %}
+				<tr>
+					<td>{{ setting.label|e }}</td>
+					<td>
+						<span href="#" id="{{ setting.name|e }}" data-type="{{ setting.type|e }}"> {% if setting.options is empty %}{{ setting.value|truncate(50) }}{% endif %}</span>
+						<script type="text/javascript">
+							$(document).ready(function() {
+								$('#{{ setting.name|e }}').editable({
+									{% if setting.options is not empty %}
+									source: {{ setting.options|raw }},
+									{% endif %}
+									value: '{{ setting.value|escape|raw }}',
+									placement: 'bottom',
+									pk: '{{ setting.id }}',
+									url: '{{ siteUrl('/admin/settings/edit/' ~ setting.id ) }}',
+									ajaxOptions: {type: 'post'}
+								});
+							});
+						</script>
+					</td>
+					<td>
+						<button id="{{ setting.name|e }}_help" data-toggle="tooltip" title="{{ setting.help|e }}">
+							<span class="glyphicon glyphicon-question-sign"></span>
+				        </button>
+						<script type="text/javascript">
+							$(document).ready(function() {
+								$('#{{ setting.name|e }}_help').tooltip()
+							});
+						</script>
+					</td>
+					{# <td class="col-md-2">
+						<a href="{{ siteUrl('/admin/settings/edit/' ~ setting.id ) }}" class="btn btn-xs-admin btn-primary">Edit</a>
+					</td> #}
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+<!-- /container -->
+{% endblock %}

@@ -1,0 +1,104 @@
+{% set pageTitle = 'Stats item' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-15">
+            <div id="placeholder" style="padding: 20px 10px; border: 1px solid #ddd;">
+
+                <ul>
+                    <li style="display: inline; margin-right: 20px;">
+                        <a href="javascript:;" rel="week">This week</a>
+                    </li>
+                    <li style="display: inline;">
+                        <a href="javascript:;" rel="month">This month</a>
+                    </li>
+                </ul>
+
+                <br />
+
+		<figure id="itemStats" style="width:800px; height: 300px;"></figure>
+
+            </div>
+	</div>
+</div>
+
+<script>
+var tt = document.createElement('div'),
+    leftOffset = 0,// -(~~$('html').css('padding-left').replace('px', '') + ~~$('body').css('margin-left').replace('px', '')),
+    topOffset = -32;
+    tt.className = 'ex-tooltip';
+document.body.appendChild(tt);
+
+$(tt).css({'position': 'absolute', 'background-color' : '#bbb', 'padding': 5, 'color': '#fff', 'border' : '1px solid #000', 'font-weight' : 'bold'});
+
+function weekStats() {
+    var data = {
+      "xScale": "time",
+      "yScale": "linear",
+      "main": [
+        {
+          "className": ".pizza",
+          "data": {{ weekstats | raw }}
+        }
+      ]
+    };
+    var opts = {
+        tickHintX: 7,
+        "axisPaddingTop" : 10,
+      "dataFormatX": function (x) { return d3.time.format('%Y-%m-%d').parse(x); },
+      "tickFormatX": function (x) { return d3.time.format('%A')(x); },
+      "mouseover": function (d, i) {
+        var pos = $(this).offset();
+        $(tt).text(d.y + ' Click at ' + d3.time.format('%Y-%m-%d')(d.x))
+          .css({top: topOffset + pos.top, left: pos.left + leftOffset})
+          .show();
+      },
+      "mouseout": function (x) {
+        $(tt).hide();
+      }
+    };
+    var myChart = new xChart('line-dotted', data, '#itemStats', opts);
+}
+
+function monthStats() {
+    var data = {
+      "xScale": "time",
+      "yScale": "linear",
+      "main": [
+        {
+          "className": ".pizza",
+          "data": {{ monthstats | raw }}
+        }
+      ]
+    };
+    var opts = {
+        tickHintX: 31,
+        "axisPaddingTop" : 10,
+      "dataFormatX": function (x) { return d3.time.format('%Y-%m-%d').parse(x); },
+      "tickFormatX": function (x) { return d3.time.format('%d')(x); },
+      "mouseover": function (d, i) {
+        var pos = $(this).offset();
+        $(tt).text(d.y + ' Click at ' + d3.time.format('%Y-%m-%d')(d.x))
+          .css({top: topOffset + pos.top, left: pos.left + leftOffset})
+          .show();
+      },
+      "mouseout": function (x) {
+        $(tt).hide();
+      }
+    };
+    var myChart = new xChart('line-dotted', data, '#itemStats', opts);
+}
+
+$('ul a[rel]').click(function(){
+    var type = $(this).attr('rel');
+    window[type + 'Stats']();
+});
+weekStats();
+</script>
+<!-- /container -->
+{% endblock %}

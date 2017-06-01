@@ -1,0 +1,23 @@
+<div class="container">
+<div id="navbar-primary" class="navbar navbar-static-top navbar-inverse navbar-default">
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="{{ siteUrl('/') }}">
+            {% if configs.site_image_logo is not empty %}
+                <img style="max-width:100px; max-height: 30px; margin-top: -7px;" src="{{ siteUrl('/cache/') ~ configs.site_image_logo }}">
+            {% else %}
+                {{ configs.site_name|escape|striptags|trim }}
+            {% endif %}
+        </a>
+	</div>
+	<div class="collapse navbar-collapse navbar-ex1-collapse">
+		{{ navbar | raw }}
+	</div>
+</div>
+<div class="navbar"></div>
+</div>

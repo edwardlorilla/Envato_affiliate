@@ -1,0 +1,2 @@
+ALTER TABLE `author`
+CHANGE COLUMN `image` `image` VARCHAR(300) NOT NULL ;

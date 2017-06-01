@@ -1,0 +1,45 @@
+{% set pageTitle = 'Pages' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-15">
+		{% include 'elements/admin_alert.twig' %}
+		<p class="pull-right">
+			<a href="{{ siteUrl('/admin/pages/add') }}" class="btn btn-primary">Add New Page</a>
+		</p>
+		<table class="table table-curved table-striped">
+			<thead>
+				<tr>
+					{# <th> # </th>  #}
+					<th> Title </th>
+					<th> Footer </th>
+					<th> Action </th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for page in pages %}
+				<tr>
+					{# <td> {{ page.id|e }} </td> #}
+					<td> {{ page.title|e }} </td>
+					<td class="col-md-1">
+						{# <span class="glyphicon glyphicon-{% if page.footer == 1 %}check{% else %}unchecked{% endif %}"></span> #}
+						{% if page.footer > 0 %}Enable{% else %}Disable{% endif %}
+					</td>
+					<td class="col-md-2">
+						<a class="btn btn-xs-admin btn-primary" href="{{ siteUrl('/admin/pages/edit') }}/{{ page.id }}" title="Edit">Edit</a>
+						<a class="btn btn-xs-admin btn-danger" href="{{ siteUrl('/admin/pages/delete') }}/{{ page.id }}" title="Delete">Delete</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% include 'elements/admin_pager.twig' %}
+	</div>
+</div>
+<!-- /container -->
+{% endblock %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<title>404 Not Found</title>
+	<meta charset="utf-8">
+	<meta name="description" content="404 Not Found" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="{{ baseUrl() }}/favicon.ico" type="image/x-icon" rel="icon" />
+	<link href="{{ baseUrl() }}/public/default/css/bootstrap.min.css" rel="stylesheet">
+	<link href="{{ baseUrl() }}/public/default/css/font-awesome.min.css" rel="stylesheet">
+	<link href="{{ baseUrl() }}/public/default/css/bootstrap-custom.css" rel="stylesheet">
+  </head>
+  <body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="error-template">
+                <h1>
+                    Oops!</h1>
+                <h2>
+                    404 Not Found</h2>
+                <div class="error-details">
+                    Sorry, an error has occured, Requested page not found!
+                </div>
+                <div class="error-actions">
+                    <a href="{{ siteUrl('/') }}" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span> Take Me Home </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

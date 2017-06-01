@@ -1,0 +1,45 @@
+<form action="" class="form-inline order">
+	{# <label>Sort by:</label> #}
+    <select name="sort" class="form-control input-sm">
+        {% if items is defined %}
+        <option value="title">{{ lang.Title }}</option>
+        <option value="category_id">{{ lang.Category }}</option>
+        <option value="view_count">{{ lang.Viewed }}</option>
+		<option value="last_update">{{ lang.Updated }}</option>
+        {% elseif authors is defined %}
+        <option value="username">{{ lang.Author }}</option>
+        <option value="sales">{{ lang.Sales }}</option>
+        <option value="followers">{{ lang.Followers }}</option>
+        {% elseif sources is defined %}
+        <option value="title">{{ lang.Title }}</option>
+        <option value="category_id">{{ lang.Category }}</option>
+		<option value="last_update">{{ lang.Updated }}</option>
+        <option value="category_count">{{ lang.Count }}</option>
+        {% endif %}
+    </select>
+
+    <select class="form-control input-sm" name="direction">
+        <option value="desc">{{ lang.Desc }}</option>
+        <option value="asc">{{ lang.Asc }}</option>
+    </select>
+</form>
+<script>
+    $(document).ready(function() {
+    	var order = $.url().param('sort');
+    	var direct = $.url().param('direction');
+    	if (order != 'undefined') {
+    		$('form.order select[name=sort]').val(order);
+    	}
+    	if (direct != 'undefined') {
+    		$('form.order select[name=direction]').val(direct);
+    	}
+    	$('form.order').on('change', function () {
+	    	var order = $(this).find('select[name=sort]').val();
+	    	var direct = $(this).find('select[name=direction]').val();
+	    	var route = '{{ pager.route|raw }}'
+	    		.replace(/sort=(.[^&]*)/, 'sort=' + order)
+	    		.replace(/direction=(.[^&]*)/, 'direction=' + direct);
+    		window.location.href = route + 1;
+    	})
+    });
+</script>

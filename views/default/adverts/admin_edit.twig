@@ -1,0 +1,35 @@
+{% set pageTitle = 'Add advert' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-15">
+
+		<form method="post" action="{{ siteUrl('/admin/adverts/edit/' ~ advert.id ) }}" id="form" role="form" accept-charset="UTF-8">
+			<div class="row">
+				<div class="col-md-15 form-group">
+					<label>Advert Title</label>
+					<input type="text" name="title" id="title" value="{{ advert.title }}" class="form-control">
+					<p class="help-block">It's just for identify adverts in admin panel.</p>
+				</div>
+				<div class="col-md-15 form-group">
+					<label>Advert Content</label>
+					<textarea name="content" id="content" rows="10" class="form-control">{{ advert.content }}</textarea>
+					<p class="help-block">Put your advert content (image, text, etc.) here.</p>
+				</div>
+				<div class="col-md-15 form-group">
+					<button type="submit" class="btn btn-primary">Submit</button>
+					<a href="{{ siteUrl('/admin/adverts') }}" class="btn btn-warning">Cancel</a>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</div>
+<!-- /container -->
+
+{% endblock %}

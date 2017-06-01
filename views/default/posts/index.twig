@@ -1,0 +1,46 @@
+{% set pageTitle = 'blog' %}
+{% set pageDescription = configs.site_description %}
+{% extends "layouts/default.twig" %}
+
+{% block content %}
+    {% include 'elements/navbar.twig' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-sm-9">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {% for post in posts %}
+                            <div class="blog-post">
+                                <h1 class="blog-post-title">
+                                    <a href="{{ siteUrl('/blog/' ~ post.alias) }}" title="{{ post.title }}">
+                                        {{ post.title }}
+                                    </a>
+                                </h1>
+                                <p class="blog-post-meta">
+                                    {{ post.created_at|date }}
+                                </p>
+                                <div>
+                                    {{ post.text|raw }}
+                                </div>
+								<div>
+								<a href="{{ siteUrl('/blog/' ~ post.alias) }}" title="{{ post.title }}" class="btn btn-info" role="button">Read More</a>
+								</div>
+                            </div>
+                            <hr />
+                            <span class="clearfix"></span>
+                        {% endfor %}
+                    </div>
+                    <div class="panel-footer clearfix">
+                        <div class="pull-right pager-two">
+                            {% include 'elements/pager.twig' %}
+                        </div>
+                        <span class="clearfix"></span>
+                    </div>
+                </div>
+            </div> <!-- /content -->
+            <div class="col-sm-3">
+                {% include 'elements/sidebar.twig' %}
+            </div><!-- /sidebar -->
+        </div><!-- /row -->
+    </div> <!-- /container -->
+{% endblock %}

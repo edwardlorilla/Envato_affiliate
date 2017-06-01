@@ -1,0 +1,150 @@
+{% if configs.authors_sidebar_button %}
+<div class="row">
+    <div class="col-lg-12">
+        <a class="btn btn-success col-lg-12" href="{{ siteUrl('/authors') }}" role="button">Authors</a>
+    </div>
+</div>
+{% endif %}
+
+<div class="panel panel-default">
+	<div class="panel-heading">{{ lang.Search }}</div>
+	<div class="panel-body">
+		<form class="form-inline" role="form" action="{{ siteUrl('/search') }}" method="get">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="input-group">
+						<input type="text" class="form-control" id="search_query" name="keyword">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">
+								<span class="glyphicon glyphicon-search"></span>
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</form>
+		<script>
+			$('input[name=keyword]').typeahead({
+				name: 'queries',
+				remote: '{{ siteUrl('/search')}}?keyword=\%QUERY',
+			});
+		</script>
+	</div>
+</div>
+
+{% if price_max is not empty %}
+<div class="panel panel-default">
+    <div class="panel-heading">Prices</div>
+    <div class="panel-body" style="padding-top: 35px;">
+        <div id="slider-range"></div>
+        <script>
+             $(function() {
+                var slider_values = [{{ price_min }}, {{ price_max }}];
+                $("#slider-range").slider({
+                    range: true,
+                    step: 1,
+                    min: slider_values[0],
+                    max: slider_values[1],
+                    values: slider_values,
+                    slide: function (event, ui) {
+                        $('.ui-slider-handle:first .ui-slider-tooltip').html('<span>' + ui.values[0] + '</span>');
+                        $('.ui-slider-handle:last .ui-slider-tooltip').html('<span>' + ui.values[1] + '</span>');
+                        slider_values[0] = ui.values[0];
+                        slider_values[1] = ui.values[1];
+                    },
+                    change: function() {
+                        var url = window.location.href;
+                        $('#items_preload').show();
+                        $.get(url + (url.indexOf('?') == -1 ? '?':'&') + 'price_min=' + slider_values[0] + '&price_max=' + slider_values[1], function(body){
+                            $('#items_index').html(body);
+                            $('#items_preload').hide();
+                        });
+                    }
+                });
+                setTimeout(function(){
+                    $('.ui-slider-handle:first').html('<div class="ui-slider-tooltip"><span>' + slider_values[0] + '</span></div>');
+                    $('.ui-slider-handle:last').html('<div class="ui-slider-tooltip"><span>' + slider_values[1] + '</span></div>');
+                }, 500);
+            });
+        </script>
+    </div>
+</div>
+{% endif %}
+
+{% if sidecat is not empty %}
+	{{ renderer.render(sidecat, {'allow_safe_labels': true}) | raw }}
+{% endif %}
+
+{% if (sidehot or sidefeatured) is not empty %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {{ lang.Featured }}
+    </div>
+	<div class="panel-body">
+		<div class="row">
+			{% for item in sidehot %}
+			<div class="col-md-6">
+			    <div id="hotuser-{{ 'item-' ~ item.id }}">
+				<a href="{{ siteUrl('/item/' ~ item.slug ~ '/' ~ item.id) }}" title="{{ item.title }}">
+					<img src="{% if item.thumbnail != '' %}{{ item.thumbnail }}{% else %}http://placehold.it/80x80{% endif %}" alt="{{ item.title }}" width="80" height="80" class="center-block">
+				</a>
+			</div>
+							<script type="text/javascript">
+								$(document).ready(function(){
+								    var img = '<img src="{{ item.image }}" class="img-responsive" />';
+									$('#hotuser-{{ 'item-' ~ item.id }}').popover({
+										title: '{{ item.title }}', placement: wheretoplace, content: img, trigger: 'hover', html: true,container: 'body',
+										template: '<div class="popover hotuser-items"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"><div class="data-content"></div></div></div>'
+
+									});
+								});
+function wheretoplace(){
+    var width = window.innerWidth;
+    if (width<500) return 'auto';
+    return 'left';
+}
+							</script>
+</div>
+			{% endfor %}
+
+			{% for item in sidefeatured %}
+			<div class="col-md-6">
+			    <div id="hotuser-{{ 'item-' ~ item.id }}">
+				<a href="{{ siteUrl('/item/' ~ item.slug ~ '/' ~ item.id) }}" title="{{ item.title }}">
+					<img src="{% if item.thumbnail != '' %}{{ item.thumbnail }}{% else %}http://placehold.it/80x80{% endif %}" alt="{{ item.title }}" width="80" height="80" class="center-block">
+				</a>
+			</div>
+							<script type="text/javascript">
+								$(document).ready(function(){
+								    var img = '<img src="{{ item.image }}" />';
+									$('#hotuser-{{ 'item-' ~ item.id }}').popover({
+										title: '{{ item.title }}', placement: 'left', content: img, trigger: 'hover', html: true,container: 'body',
+										template: '<div class="popover hotuser-items"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"><div class="data-content"></div></div></div>'
+
+									});
+								});
+							</script>
+</div>
+			{% endfor %}
+
+		</div>
+	</div>
+</div>
+
+{% endif %}
+
+
+
+{% if adverts is not empty %}
+{# <div class="panel panel-default"> #}
+	{# <div class="panel-body"> #}
+		<div class="list-group">
+		{% for advert in adverts %}
+			<div class="list-group-item">
+			<div>{{ advert.content | raw }}</div>
+			</div>
+		{% endfor %}
+		</div>
+	{# </div> #}
+{# </div> #}
+{% endif %}

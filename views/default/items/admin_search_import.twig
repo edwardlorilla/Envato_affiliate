@@ -1,0 +1,62 @@
+{% set pageTitle = 'Import by search' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-15">
+
+		<form method="post" action="{{ siteUrl('/admin/items/search_import') }}" id="form" role="form" accept-charset="UTF-8">
+			<div class="row">
+				<div class="form-group">
+				    <label>Market name</label>
+				    {% spaceless %}
+				    <select class="form-control" name="category_id" data-live-search="true">
+					    {% for category in categories %}
+						    <option class="depth-{{ category.depth }}" value="{{ category.id }}">
+							    {{ category.name | replace({'->':"- "}) }}
+						    </option>
+					    {% endfor %}
+				    </select>
+				    {% endspaceless %}
+				</div>
+				<div class="form-group">
+				    <label>Term</label>
+				    <input type="text" class="form-control" name="term" value="">
+				</div>
+				<div class="form-group">
+				    <label>Category</label>
+				    <input type="text" class="form-control" name="category" value="">
+				</div>
+				<div class="form-group">
+				    <label>Tags</label>
+				    <input type="text" class="form-control" name="tags" value="">
+				</div>
+				<div class="form-group">
+				    <label>Price min</label>
+				    <input type="text" class="form-control" name="price_min" value="">
+				</div>
+				<div class="form-group">
+				    <label>Price max</label>
+				    <input type="text" class="form-control" name="price_max" value="">
+				</div>
+				<div class="form-group">
+				    <label>Rating min</label>
+				    <input type="text" class="form-control" name="rating_min" value="">
+				</div>
+				<div class="form-group">
+				    <label>Page</label>
+				    <input type="text" class="form-control" name="page" value="1">
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+				<a href="{{ siteUrl('/admin/items') }}" class="btn btn-warning">Cancel</a>
+			</div>
+		</form>
+
+	</div>
+</div>
+<!-- /container -->
+{% endblock %}

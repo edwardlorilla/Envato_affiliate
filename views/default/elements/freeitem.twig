@@ -1,0 +1,19 @@
+{% if freeitem is not empty %}
+    <div class="well">
+        <div class="row">
+            <div class="col-md-4 col-sm-4">
+                <a href="{{ freeitem.url }}?ref={{ configs.envato_username }}">
+                    <img src="{{ freeitem.thumbnail }}" alt="{{ freeitem.item }}" width="80" height="80">
+                </a>
+            </div>
+            <div class="col-md-8 col-sm-8">
+                <h3>
+                    <a href="{{ freeitem.url }}?ref={{ configs.envato_username }}">Free File!</a>
+                </h3>
+                <p>
+                    Grab this month's <a href="{{ freeitem.url }}?ref={{ configs.envato_username }}">free file</a> from the Portfolio category!
+                </p>
+            </div>
+        </div>
+    </div>
+{% endif %}

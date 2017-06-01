@@ -1,0 +1,2 @@
+INSERT INTO `setting` (`id`, `label`, `name`, `value`, `type`, `options`, `help`) VALUES
+(NULL, 'Products Per Page', 'products_per_page', '30', 'range', '', 'Change per page limit for product lists.');

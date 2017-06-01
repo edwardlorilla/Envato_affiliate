@@ -1,0 +1,112 @@
+{% set pageTitle = 'Authors' %}
+{% set pageDescription = 'Author list' %}
+{% extends "layouts/default.twig" %}
+
+{% block content %}
+{% include 'elements/navbar.twig' %}
+<div class="container">
+	<div class="row">
+         {% include 'elements/alert.twig' %}
+		<div class="col-md-9 col-sm-9">
+            <div class="row features">
+                {% if configs.item_featured_show %}
+                <div class="col-md-6">
+                    {% include 'elements/hotitem.twig'  %}
+                </div>
+                {% endif %}
+                {% if configs.item_free_show %}
+                <div class="col-md-6">
+                    {% include 'elements/freeitem.twig'  %}
+                </div>
+                {% endif %}
+            </div>
+            {% if configs.item_slider_show %}
+            {% include 'elements/preview.twig' %}
+            {% endif %}
+			<div class="panel panel-default">
+
+                <div class="panel-heading clearfix">
+					<div class="pull-left pager-one">
+						{% include 'elements/order.twig' %}
+					</div>
+					<div class="pull-right pager-one">
+						{% include 'elements/pager.twig' %}
+					</div>
+					<span class="clearfix"></span>
+				</div>
+
+				<div class="panel-body">
+					<div class="row">
+						{% for author in authors %}
+							<div class="col-md-14 item">
+								<div id="{{ 'author-' ~ author.id }}">
+                                    <a href="{{ siteUrl('/authors/' ~ author.username) }}" title="{{ author.username }}">
+										<img src="{% if author.image != '' %}{{ author.image }}{% else %}http://placehold.it/80x80{% endif %}" alt="{{ author.username }}" class="center-block" width="80" height="80">
+									</a>
+                                    <div class="caption">
+										<h5>
+                                            <a href="{{ siteUrl('/authors/' ~ author.username) }}" title="{{ author.username }}">
+												{{ author.username }}
+											</a>
+										</h5>
+										<p class="-lead text-muted">
+											 {{ author.sales }} Sales
+											 <br />
+											 {{ author.followers }} Followers
+										</p>
+									</div>
+								</div>
+							</div>
+							{% if (loop.index % 5 == 0) and loop.index <= ((loop.length / 5) - 1) * 5 %}
+                                <span class="clearfix"></span>
+                                <hr />
+                            {% endif %}
+						{% endfor %}
+					</div>
+					<span class="clearfix"></span>
+				</div>
+				<div class="panel-footer clearfix">
+					<div class="pull-left pager-two">
+						{% include 'elements/order.twig' %}
+					</div>
+					<div class="pull-right pager-two">
+						{% include 'elements/pager.twig' %}
+					</div>
+					<span class="clearfix"></span>
+				</div>
+			</div>
+			{% if userhot is not empty %}
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-2 col-sm-2">
+							<a href="{{ userhot.url }}">
+								<img src="{{ userhot.thumbnail }}" alt="{{ userhot.user }}" width="80" height="80">
+							</a>
+						</div>
+						<div class="featured-author__info">
+							<h3>
+                                Featured Author:
+                                <a href="{{ userhot.url }}">{{ userhot.user }}</a>
+                            </h3>
+                            <p>
+                            	This week's featured author is {{ userhot.user }},
+								{% if userhot.item_count == 0 %}
+                            		who has one item here yet.
+								{% else %}
+                            		who has {{ userhot.item_count }}
+                            		{% if userhot.item_count == 1 %}item{% else %}items{% endif %}.
+								{% endif %}
+                            </p>
+						</div>
+					</div>
+				</div>
+			</div></div>
+			{% endif %}
+		<!-- /content -->
+		<div class="col-sm-3">
+			{% include 'elements/sidebar.twig' %}
+		</div><!-- /sidebar -->
+	</div><!-- /row -->
+</div> <!-- /container -->
+{% endblock %}

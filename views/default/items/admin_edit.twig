@@ -1,0 +1,66 @@
+{% set pageTitle = 'Edit item' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-7">
+
+<script type="text/javascript">
+tinymce.init({
+    selector: '#content',
+    plugins: 'link image code',
+    relative_urls: false
+});
+</script>
+
+		<form method="post" action="{{ siteUrl('/admin/items/edit/' ~ item.id) }}" id="form" role="form" accept-charset="UTF-8">
+			<div class="row">
+				<div class="form-group">
+					<label>Title</label>
+					<input type="text" class="form-control" id="title" name="title" value="{{ item.title }}">
+				</div>
+				<div class="form-group">
+					<label>Description</label>
+					<textarea name="description" id="content" class="form-control" rows="10">{{ item.description|trim }}</textarea>
+				</div>
+				<div class="form-group">
+					<label>Preview Image</label>
+					<input type="text" class="form-control" id="image" name="image" value="{{ item.image|e }}">
+				</div>
+				<div class="form-group">
+					<label>Thumbnail Image</label>
+					<input type="text" class="form-control" id="thumbnail" name="thumbnail" value="{{ item.thumbnail|e }}">
+				</div>
+				<div class="form-group">
+					<label>Item URL</label>
+					<input type="text" class="form-control" id="url" name="url" value="{{ item.url|e }}">
+				</div>
+				<div class="form-group">
+					<label>SEO Link</label>
+                    <input type="text" class="form-control" id="slug" name="slug" value="{{ item.slug|e }}">
+				</div>
+				<div class="form-group">
+					<label>Category</label>
+					{% spaceless %}
+                    <select class="form-control" name="category_id" data-live-search="true">
+                        {% for category in categories %}
+                            <option class="depth-{{ category.depth }}" value="{{ category.id }}"{% if category.category_id == 0 %} disabled="disabled"{% endif %}{% if category.id == item.category_id %} selected="selected"{% endif %}>
+                                {{ category.name | replace({'->':"&rarr;&nbsp;"}) | raw }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    {% endspaceless %}
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+				<a href="{{ siteUrl('/admin/items') }}" class="btn btn-warning">Cancel</a>
+			</div>
+		</form>
+
+	</div>
+</div>
+<!-- /container -->
+{% endblock %}

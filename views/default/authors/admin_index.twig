@@ -1,0 +1,54 @@
+{% set pageTitle = 'Authors' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-15">
+		{% include 'elements/admin_alert.twig' %}
+		<p class="pull-right">
+			<a href="{{ siteUrl('/admin/authors/add') }}" class="btn btn-primary">Add New Author</a>
+		</p>
+		<table class="table table-curved table-striped">
+			<thead>
+				<tr>
+					<th> User </th>
+					<th> Sales </th>
+					<th> Followers </th>
+					<th> Action </th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for author in authors %}
+				<tr>
+					<td> <a href="http://themeforest.net/user/{{ author.username|e }}" target="_blank" title="{{ author.username|e }}">{{ author.username|e }}</a> </td>
+					<td> {{ author.sales|e }} </td>
+					<td> {{ author.followers|e }} </td>
+					<td class="col-md-4">
+						<a class="btn btn-xs-admin btn-primary" href="{{ siteUrl('/admin/authors/edit') }}/{{ author.id }}" title="Edit">Edit</a>
+						<a class="btn btn-xs-admin btn-danger" href="{{ siteUrl('/admin/authors/delete') }}/{{ author.id }}" title="Delete">Delete</a>
+                        <a class="btn btn-xs-admin btn-default" href="{{ siteUrl('/admin/authors/update') }}/{{ author.id }}" title="Update">Update</a>
+
+                        {% if author.featured == 0 %}
+                        <a class="btn btn-xs-admin btn-success" href="{{ siteUrl('/admin/authors/featured') }}/{{ author.id }}" title="Featured">Featured</a>
+						{% else %}
+						<a class="btn btn-xs-admin btn-danger" href="{{ siteUrl('/admin/authors/unfeatured') }}/{{ author.id }}" title="Unfeatured">Unfeatured</a>
+                        {% endif %}
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+        <div class="pull-left pager-one">
+            {% include 'elements/admin_order.twig' %}
+        </div>
+        <div class="pull-right pager-one">
+            {% include 'elements/admin_pager.twig' %}
+        </div>
+	</div>
+</div>
+<!-- /container -->
+{% endblock %}

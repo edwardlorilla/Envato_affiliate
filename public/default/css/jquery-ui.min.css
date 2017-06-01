@@ -1,0 +1,13 @@
+/*! jQuery UI - v1.11.1 - 2014-10-13
+* http://jqueryui.com
+* Includes: core.css, slider.css
+* Copyright 2014 jQuery Foundation and other contributors; Licensed MIT */
+.ui-slider{position:relative;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.ui-slider-range{left:0;right:0;margin-top:-3px;position:absolute;height:3px;background:#5580ba;-webkit-box-shadow:inset 0 -1px #406291,transparent 0 0 0,transparent 0 0 0;box-shadow:inset 0 -1px #406291,transparent 0 0 0,transparent 0 0 0}
+.ui-slider-handle{float:none;cursor:pointer;margin-top:-6px;position:absolute;width:9px;height:9px;background:-moz-linear-gradient(top,#84a9dc 0,#5580ba 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#84a9dc),color-stop(100%,#5580ba));background:-webkit-linear-gradient(top,#84a9dc 0,#5580ba 100%);background:-o-linear-gradient(top,#84a9dc 0,#5580ba 100%);background:-ms-linear-gradient(top,#84a9dc 0,#5580ba 100%);background:linear-gradient(top,#84a9dc 0,#5580ba 100%);-webkit-border-radius:999px;-moz-border-radius:999px;border-radius:999px;-webkit-box-shadow:0 1px 3px rgba(0,0,0,.1),inset 0 -1px #5580ba,transparent 0 0 0;box-shadow:0 1px 3px rgba(0,0,0,.1),inset 0 -1px #5580ba,transparent 0 0 0}
+.ui-slider-track{background:#fff;height:3px;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;-webkit-box-shadow:0 0 0 1px rgba(201,198,194,.6),transparent 0 0 0,transparent 0 0 0;box-shadow:0 0 0 1px rgba(201,198,194,.6),transparent 0 0 0,transparent 0 0 0}
+.ui-slider-tooltip{position:absolute;display:block;text-align:center;top:-30px;left:50%;width:50px;margin-left:-25px}
+.ui-slider-tooltip span{position:relative;display:inline-block;color:#5c554b;background:#fffbf9;padding:2px 8px 0;line-height:22px;font-size:12px;font-weight:400;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 2px rgba(0,0,0,.1),transparent 0 0 0,transparent 0 0 0;box-shadow:0 1px 2px rgba(0,0,0,.1),transparent 0 0 0,transparent 0 0 0}
+.ui-slider-tooltip span:after,.ui-slider-tooltip span:before{content:' ';width:0;height:0;border-style:solid;position:absolute;left:50%;margin-left:-5px}
+.ui-slider-tooltip span:before{bottom:-5px;border-width:4px 5px 0;border-color:rgba(0,0,0,.1)transparent transparent}
+.ui-slider-tooltip span:after{bottom:-4px;border-width:4px 5px 0;border-color:#fffbf9 transparent transparent}

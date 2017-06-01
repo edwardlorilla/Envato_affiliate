@@ -1,0 +1,25 @@
+{% if hotitem is not empty %}
+    <div class="well">
+        <div class="row">
+            <div class="col-md-8">
+                <h3>
+                    {{ lang.Featured_Item}} :
+                </h3>
+                <p>
+                    <b>
+                        <a href="{{ hotitem.url }}?ref={{ configs.envato_username }}">{{ hotitem.user }}</a>
+                    </b>
+                    <br />
+                    <span class="-lead text-muted">
+                        {{ hotitem.sales }} Sales | ${{ hotitem.cost }}
+                    </span>
+                </p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <a href="{{ hotitem.url }}?ref={{ configs.envato_username }}">
+                    <img src="{{ hotitem.thumbnail }}" alt="{{ hotitem.item }}" width="80" height="80">
+                </a>
+            </div>
+        </div>
+    </div>
+{% endif %}

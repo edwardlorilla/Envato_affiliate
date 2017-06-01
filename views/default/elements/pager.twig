@@ -1,0 +1,78 @@
+{% if pager.pages > 1 %}
+    <ul class="pagination pagination-sm">
+    {% spaceless %}
+
+        {% if pager.page > 1 %}
+            <li><a href="{{ pager.route ~ pager.prev}}">&laquo;</a></li>
+        {% endif %}
+
+        {% if pager.last < 7 + (pager.adja / 2) %}
+            {% for i in range(low=1, high=pager.last, step=1) %}
+            <li>
+                <a href="{{ pager.route ~ i }}">
+                    {{ i }}
+                    {% if i == pager.page  %}
+                    <span class="sr-only">(current)</span>
+                    {% endif %}
+                </a>
+            </li>
+            {% endfor %}
+        {% elseif pager.last >= 7 + (pager.adja / 2) %}
+            {% if pager.page < 1 + (pager.adja * 3) %}
+                {% for i in range(low=1, high=(4 + (pager.adja / 2)), step=1) %}
+                <li{% if pager.page == i %} class="active"{% endif %}>
+                    <a href="{{ pager.route ~ i }}">
+                        {{ i }}
+                        {% if i == pager.page  %}
+                        <span class="sr-only">(current)</span>
+                        {% endif %}
+                    </a>
+                </li>
+                {% endfor %}
+                <li class="disabled"><span>...</span></li>
+                <li><a href="{{ pager.route ~ (pager.last - 1) }}">{{ pager.last - 1 }}</a></li>
+                <li><a href="{{ pager.route ~ pager.last }}">{{ pager.last }}</a></li>
+            {% elseif (pager.last - (pager.adja * 2) > pager.page) and (pager.page > (pager.adja * 2)) %}
+                <li><a href="{{ pager.route ~ 1 }}">1</a></li>
+                <li><a href="{{ pager.route ~ 2 }}">2</a></li>
+                <li class="disabled"><span>...</span></li>
+                {% for i in range(low=(pager.page - pager.adja), high=(pager.page + pager.adja), step=1) %}
+		        {% set j = i|round %}
+                <li{% if pager.page == i %} class="active"{% endif %}>
+                    <a href="{{ pager.route ~ j }}">
+                        {{ j }}
+                        {% if i == pager.page  %}
+                        <span class="sr-only">(current)</span>
+                        {% endif %}
+                    </a>
+                </li>
+                {% endfor %}
+                <li class="disabled"><span>...</span></li>
+                <li><a href="{{ pager.route ~ (pager.last - 1) }}">{{ pager.last - 1 }}</a></li>
+                <li><a href="{{ pager.route ~ pager.last }}">{{ pager.last }}</a></li>
+            {% else %}
+                <li><a href="{{ pager.route ~ 1 }}">1</a></li>
+                <li><a href="{{ pager.route ~ 2 }}">2</a></li>
+                <li class="disabled"><span>...</span></li>
+                {% for i in range(low=(pager.last - (pager.adja * 3)), high=pager.last, step=1) %}
+                <li{% if pager.page == i %} class="active"{% endif %}>
+                    <a href="{{ pager.route ~ i }}">
+                        {{ i }}
+                        {% if i == pager.page  %}
+                        <span class="sr-only">(current)</span>
+                        {% endif %}
+                    </a>
+                </li>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        {% if pager.page < pager.last %}
+            <li><a href="{{ pager.route ~ pager.next}}">&raquo;</a></li>
+        {% else %}
+            <li class="disabled"><a href="">&raquo;</a></li>
+        {% endif %}
+
+    {% endspaceless %}
+    </ul>
+{% endif %}

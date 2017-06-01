@@ -1,0 +1,305 @@
+{% set pageTitle = item.title %}
+{% set pageDescription = item.description|length > 155 ? item.description|replace({"\n": " ", "\r\n": " ", "\t": " ", "\n\r": " "})|striptags|trim|slice(0, 155) ~ '...' : item.description %}
+
+{% extends "layouts/default.twig" %}
+{% block content %}
+{% include 'elements/navbar.twig' %}
+<div class="container">
+    <div class="row">
+        {% include 'elements/alert.twig' %}
+
+        {% set itemImage = (item.product != 1 ? item.image : siteUrl('/cache/' ~ item.image)) %}
+        {% set itemThumb = (item.product != 1 ? item.thumbnail : siteUrl('/cache/' ~ item.thumbnail)) %}
+
+		{% if item.url is null and item.product != 1 and item.product != 2 %}
+		<div class="col-md-7 col-sm-7">
+		<div class="well">
+		<h1>Item No Longer Available</h1>
+        <p>Say what?! Where did it go?</p>
+        <p>The item is no longer being sold. The author may have stopped selling or it was taken down for other reasons. Either way it's no longer available.</p>
+		</div>
+		</div>
+		<div class="col-sm-3">
+        {% else %}
+        <div class="col-md-7 col-sm-7">
+		<div class="well">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <h3 class="center-block">
+                        {% if configs.item_title_show %} {{ item.title|e }} {% endif %}
+                    </h3>
+                    <hr />
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="center-block">
+                        {% if current_market == 'videohive' %}
+                        <div class="remodal" data-remodal-id="modal" id="modal">
+                            <h3 class="center-block">
+                                {% if configs.item_title_show %} {{ item.title|e }} {% endif %}
+                            </h3>
+                            <hr />
+						<script type="text/javascript">
+                          jwplayer("modal").setup({
+                          file: "{{ item.preview_video_url }}",
+                          image: "{{ itemImage }}",
+						  primary: "flash" /* Try Flash® RTMP first, fallback on HTML5 or direct download of MP4 file. */,
+		                  width: "640",
+		                  height: "360",
+		                  autostart: false
+                          });
+                         </script>
+                        </div>
+                        {% elseif current_market == 'audiojungle' %}
+                        <script type="text/javascript">
+                        //<![CDATA[
+                            $(document).ready(function() {
+                                $("#jquery_jplayer_1").jPlayer({
+                                    ready: function(event) {
+                                        $(this).jPlayer("setMedia", {
+                                            m4a: "{{ item.preview_audio_url }}",
+                                        });
+                                    },
+                                    swfPath: "../js",
+                                    supplied: "m4a, oga",
+                                    wmode: "window",
+                                    smoothPlayBar: true,
+                                    keyEnabled: true
+                                });
+                            });
+                        //]]>
+                        </script>
+                        <div id="jquery_jplayer_1" class="jp-jplayer">
+                        </div>
+                        <div id="jp_container_1" class="jp-audio">
+                            <div class="jp-type-single">
+                                <div class="jp-gui jp-interface">
+                                    <ul class="jp-controls">
+                                        <li>
+                                            <a href="javascript:;" class="jp-previous" tabindex="1">previous</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="jp-play" tabindex="1">play</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="jp-pause" tabindex="1">pause</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="jp-next" tabindex="1">next</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="jp-stop" tabindex="1">stop</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a>
+                                        </li>
+                                    </ul>
+                                    <div class="jp-progress">
+                                        <div class="jp-seek-bar">
+                                            <div class="jp-play-bar">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="jp-volume-bar">
+                                        <div class="jp-volume-bar-value">
+                                        </div>
+                                    </div>
+                                    <div class="jp-time-holder">
+                                        <div class="jp-current-time">
+                                        </div>
+                                        <div class="jp-duration">
+                                        </div>
+                                    </div>
+                                    <ul class="jp-toggles">
+                                        <li>
+                                            <a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle">shuffle</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off">shuffle off</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat">repeat</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off">repeat off</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="jp-no-solution">
+                                    <span>
+                                        Update Required
+                                    </span>
+                                    To play the media you will need to either update your browser to a recent version
+                                    or update your
+                                    <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>
+                                    .
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <img class="img-rounded" src="{{ itemImage }}" alt="{{ item.title }}">
+                        {% endif %}
+                        <hr />
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="center-block">
+                        {% if item.product != 1 %}
+                            {% if item.preview and current_market not in ['graphicriver'] %}
+                                <span class="product"><a href="{{ siteUrl('/screen/' ~ item.slug ~ '/' ~ item.id) }}" title="Screenshots" class="btn btn-warning btn-responsive" target="_blank">Screenshots</a></span>
+                            {% endif %}
+                            {% if item.demo and current_market not in ['audiojungle','graphicriver'] %}
+                               <span class="product"><a href="{{ siteUrl('/preview/' ~ item.slug ~ '/' ~ item.id) }}" title="Live Preview" class="btn btn-primary btn-responsive" target="_blank">Live Preview</a></span>
+                            {% endif %}
+                            {% if item.url %}
+                                <span class="product"><a href="{{ siteUrl('/purchase/' ~ item.slug ~ '/' ~ item.id) }}" title="Purchase" class="btn btn-success btn-responsive" target="_blank">Purchase</a></span>
+                            {% endif %}
+                        {% else %}
+                            {% if item.demo %}
+                                <span class="product"><a href="{{ item.demo }}" title="Live Preview" class="btn btn-primary btn-responsive" target="_blank">Live preview</a></span>
+                            {% endif %}
+                            {% if item.buy_now %}
+                                <span class="product">{{ item.buy_now|raw }}</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <br /><br />
+					<hr />
+                </div>
+                <div class="col-md-12 col-sm-12 fiximg">
+                    {% if item.product != 1 and item.product != 2 and item.static != 1 %} {{ item.description|raw }}
+					{% else %}
+					{{ item.description|raw }}
+					{% endif %}
+                </div>
+           </div>
+        </div>
+		</div>
+        <div class="col-sm-3">
+		{% if configs.item_share_show %}
+		<div class="panel panel-default">
+		        <div class="panel-body">
+				{% set self_url = siteUrl('/purchase/' ~ item.slug ~ '/' ~ item.id ~ '?ref=' ~ configs.envato_username) %}
+				<div class='social-shares__button--twitter'>
+					<a href="http://twitter.com/share" class="twitter-share-button" data-url="{{ self_url }}" data-text="{{ item.title }}" data-count="horizontal">Tweet</a>
+				</div>
+
+				<div class='social-shares__button--google'>
+					<g:plusone size="medium" href="{{ self_url }}"></g:plusone>
+				</div>
+
+				<div class="social-shares__button--pinterest">
+					<a href="http://pinterest.com/pin/create/button/?url={{ self_url|url_encode }}&amp;media={{ itemImage|url_encode }}&amp;description={{ item.title }}" class="pin-it-button" count-layout="horizontal"><img alt="Pin It" border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+				</div>
+
+				<script>
+				(function() {
+					nonCriticalScripts.push(
+						'//apis.google.com/js/plusone.js',
+						'//platform.twitter.com/widgets.js',
+						'//assets.pinterest.com/js/pinit.js'
+					);
+				}());
+				</script>
+		        </div>
+		    </div>
+		{% endif %}
+            {% if configs.item_rating_show or configs.item_sales_show or configs.item_cost_show
+            or configs.item_author_show %}
+            <div class="list-group">
+                {% if configs.item_rating_show and item.product != 1 and item.product != 2 %}
+                <div class="list-group-item">
+                    <span>
+                        Rating
+                    </span>
+                    <span class="fa fa-star pull-right">
+                    </span>
+                    <span class="pull-right">
+                        {{ item.rating }}
+                    </span>
+                </div>
+                {% endif %}
+				{% if configs.item_sales_show and item.product != 1 and item.product != 2 %}
+                <div class="list-group-item">
+                    <span>
+                        Sales
+                    </span>
+                    <span class="fa fa-shopping-cart pull-right">
+                    </span>
+                    <span class="pull-right">
+                        {{ item.sales }}
+                    </span>
+                </div>
+                {% endif %} {% if configs.item_cost_show %}
+                <div class="list-group-item">
+                    <span>
+                        Price
+                    </span>
+                    <span class="fa fa-dollar pull-right">
+                    </span>
+                    <span class="pull-right">
+                        {{ item.price }}
+                    </span>
+                </div>
+                {% endif %} {% if configs.item_author_show and item.product != 1 and item.product != 2 %}
+                <div class="list-group-item">
+                    <span>
+                        Author
+                    </span>
+                    <span class="fa fa-user pull-right">
+                    </span>
+                    <span class="pull-right user">
+                        <a href="{{ item.user_url }}">{{ item.user }}</a>
+                    </span>
+                </div>
+                {% endif %}
+				{% if configs.item_created_show and item.product != 1 and item.product != 2 %}
+		        <div class="list-group-item">
+		            <span>
+		                Created
+		            </span>
+		            <span class="fa fa-calendar pull-right">
+		            </span>
+		            <span class="pull-right user">
+		                {{ item.uploaded_on }}
+		            </span>
+		        </div>
+		        {% endif %}
+				{% if configs.item_last_update_show and item.product != 1 and item.product != 2 %}
+		        <div class="list-group-item">
+		            <span>
+		                Last update
+		            </span>
+		            <span class="fa fa-calendar pull-right">
+		            </span>
+		            <span class="pull-right user">
+		                {{ item.last_update }}
+		            </span>
+		        </div>
+                {% endif %}
+            </div>
+			{% endif %}
+            {% endif %} {% include 'elements/sidebar.twig' %}
+			{% if item.product != 1 and item.product != 2 %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul class="list-unstyled inline">
+                        {% for tag in tags %}
+                        <li>
+                            <a href="{{ siteUrl('/tag/' ~ tag.name) }}">{{ tag.name }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+		{% endif %}
+        </div>
+    </div>
+</div>
+<!-- /container -->
+{% endblock %}

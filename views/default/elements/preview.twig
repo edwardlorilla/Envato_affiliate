@@ -1,0 +1,83 @@
+    <div class="panel panel-default">
+        <div class="panel-body">
+           <div class="owl-carousel">
+
+                {% for item in previewItems %}
+                {% set itemImage = (item.product != 1 ? item.image : siteUrl('/cache/' ~ item.image)) %}
+                {% set itemThumb = (item.product != 1 ? item.thumbnail : siteUrl('/cache/' ~ item.thumbnail)) %}
+                <div class="item">
+				    <div id="preview-{{ 'item-' ~ item.id }}">
+                    <a href="{{ siteUrl('/item/' ~ item.slug ~ '/' ~ item.id) }}" title="{{ item.title }}">
+                     <img src="{% if itemThumb != '' %}{{ itemThumb }}{% else %}http://placehold.it/80x80{% endif %}" alt="{{ item.title }}" width="80" height="80" class="center-block">
+                    </a>
+                    <div class="caption">
+                            <h5>
+                                    <a href="{{ siteUrl('/item/' ~ item.slug ~ '/' ~ item.id) }}" title="{{ item.title }}">
+                                            {{ item.title }}
+                                    </a>
+                            </h5>
+                            {% if configs.item_rating_show %}
+                            {{ itemRate(item.rating)|raw }}
+                            {% endif %}
+							{% if configs.item_sales_show and configs.item_cost_show and item.product != 1 %}
+                            <p class="-lead text-muted">
+							{{ item.sales }} Sales | ${{ item.price }}
+                            </p>
+							{% elseif configs.item_cost_show and item.product != 1 %}
+							<p class="-lead text-muted">
+							${{ item.price }}
+							</p>
+							{% elseif configs.item_sales_show and item.product != 1 %}
+							<p class="-lead text-muted">
+							{{ item.sales }} Sales
+							</p>
+                            {% endif %}
+                    </div>
+                </div>
+
+							<script type="text/javascript">
+								$(document).ready(function(){
+								    var img = '<img src="{{ itemImage }}" class="img-responsive" />';
+									$('#preview-{{ 'item-' ~ item.id }}').popover({
+										title: '{{ item.title }}', placement: wheretoplacepre, content: img, trigger: 'hover', html: true,container: 'body',
+										template: '<div class="popover preview-items"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"><div class="data-content"></div></div></div>'
+									});
+								});
+function wheretoplacepre(){
+    var width = window.innerWidth;
+    if (width<500) return 'auto';
+    return 'bottom';
+}
+							</script>
+							</div>
+               {% endfor %}
+          </div>
+        </div>
+    </div>
+
+<script>
+  $(document).ready(function() {
+    $('.owl-carousel').owlCarousel({
+      loop: true,
+	  autoPlay: true,
+	  stopOnHover : true,
+      margin: 10,
+      responsiveClass: true,
+	  navContainer : $('div'),
+                responsive: {
+                  0: {
+                    items: 1,
+                    nav: false
+                  },
+                  600: {
+                    items: 3,
+                    nav: false
+                  },
+                  1000: {
+                    items: 5,
+                    nav: false,
+                  }
+                }
+              })
+            })
+</script>

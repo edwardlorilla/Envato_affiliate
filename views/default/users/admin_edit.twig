@@ -1,0 +1,38 @@
+{% set pageTitle = 'Edit profile' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-15">
+		{% include 'elements/admin_alert.twig' %}
+		<form method="post" action="{{ siteUrl('/admin/users') }}" id="form" role="form" accept-charset="UTF-8">
+			<div class="row">
+				<div class="col-md-15 form-group">
+					<label>Username</label>
+					<input type="text" class="form-control" id="username" name="username" value="{{ user.username|e }}">
+				</div>
+				<div class="col-md-15 form-group">
+					<label>Email Address</label>
+					<input type="text" class="form-control" id="email" name="email" value="{{ user.email|e }}">
+				</div>
+				<div class="col-md-15 form-group">
+					<label>New Password</label>
+					<input type="password" class="form-control" id="password" name="password">
+				</div>
+				<div class="col-md-15 form-group">
+					<label>Confirm Password</label>
+					<input type="password" class="form-control" id="passconf" name="passconf">
+				</div>
+				<div class="col-md-15 form-group">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- /container -->
+{% endblock %}

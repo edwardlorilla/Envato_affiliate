@@ -1,0 +1,55 @@
+{% set pageTitle = 'Add author' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-15">
+
+		<form method="post" action="{{ siteUrl('/admin/authors/edit/' ~ author.id ) }}" id="form" role="form" accept-charset="UTF-8">
+            <div class="row">
+                <div class="col-md-15 form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" id="username" value="{{ author.username }}" class="form-control">
+                    {#<p class="help-block"></p>#}
+                </div>
+                <div class="col-md-15 form-group">
+                    <label>Country</label>
+                    <input type="text" name="country" id="country" value="{{ author.country }}" class="form-control">
+                    {#<p class="help-block"></p>#}
+                </div>
+                <div class="col-md-15 form-group">
+                    <label>Location</label>
+                    <input type="text" name="location" id="location" value="{{ author.location }}" class="form-control">
+                    {#<p class="help-block"></p>#}
+                </div>
+                <div class="col-md-15 form-group">
+                    <label>Sales</label>
+                    <input type="text" name="sales" id="sales" value="{{ author.sales }}" class="form-control">
+                    {#<p class="help-block"></p>#}
+                </div>
+                <div class="col-md-15 form-group">
+                    <label>Followers</label>
+                    <input type="text" name="followers" id="followers" value="{{ author.followers }}" class="form-control">
+                    {#<p class="help-block"></p>#}
+                </div>
+                <div class="col-md-15 form-group">
+                    <label>Image</label>
+                    <input type="text" name="image" id="image" value="{{ author.image }}" class="form-control">
+                    {#<p class="help-block"></p>#}
+                </div>
+                <div class="col-md-15 form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a href="{{ siteUrl('/admin/authors') }}" class="btn btn-warning">Cancel</a>
+                </div>
+            </div>
+		</form>
+
+	</div>
+</div>
+<!-- /container -->
+
+{% endblock %}

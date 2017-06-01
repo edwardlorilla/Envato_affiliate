@@ -1,0 +1,52 @@
+{% set pageTitle = 'Contacts' %}
+{% set pageDescription = 'Contacts' %}
+{% extends "layouts/default.twig" %}
+
+{% block content %}
+    {% include 'elements/navbar.twig' %}
+    <div class="container">
+        <div class="row">
+            {% include 'elements/alert.twig' %}
+            <div class="col-md-9 col-sm-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        Contacts
+                        <span class="clearfix"></span>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" method="post" accept-charset="utf-8" action="{#{{ siteUrl('/contacts') }}#}">
+                            <div class="form-group">
+                                <label for="name">Your full name</label>
+                                <input type="text" class="form-control" id="name" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email address</label>
+                                <input type="email" class="form-control" id="email" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject or topic</label>
+                                <input type="text" class="form-control" id="subject" name="subject">
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Content of message</label>
+                                <textarea name="message" class="form-control" id="message" cols="30" rows="10"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Security image</label>
+                                <input name="captcha" id="captcha" class="form-control" type="text" /><br />
+                                <img src="{{ siteUrl('/contacts/captcha') }}" alt="Captcha" class="img-thumbnail" />
+                            </div>
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </form>
+                        <span class="clearfix"></span>
+                    </div>
+                </div>
+                {% include 'elements/hotuser.twig' %}
+				</div>
+            <!-- /content -->
+            <div class="col-sm-3">
+                {% include 'elements/sidebar.twig' %}
+            </div><!-- /sidebar -->
+        </div><!-- /row -->
+    </div> <!-- /container -->
+{% endblock %}

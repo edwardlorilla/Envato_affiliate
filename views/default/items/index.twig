@@ -1,0 +1,73 @@
+{% if category is not empty %}
+    {% set pageTitle = category.item_count ~ '+ ' ~ category.title ~ ' | ' ~ market.name %}
+{% elseif market.name is not empty %}
+    {% set pageTitle = market.title %}
+{% endif %}
+
+{% if market.title is empty %}
+    {% set pageTitle = market.name %}
+{% endif %}
+
+{% if currentUrl() == siteUrl('/search?keyword=' ~ query|replace({' ': "+"})) or currentUrl() == siteUrl('/search?keyword=' ~ query|url_encode) %}
+    {% set pageTitle = query %}
+{% endif %}
+
+{% if currentUrl() == siteUrl('/tag/' ~ tag|url_encode) %}
+    {% set pageTitle = tag %}
+{% endif %}
+
+{% if market.title is not empty %}
+    {% set pageTitle = market.title %}
+{% elseif user is not empty %}
+    {% set pageTitle = user %}
+{% endif %}
+
+{% if category.title is not empty %}
+    {% set pageTitle = category.item_count ~ '+ ' ~ category.title ~ ' | ' ~ market.name %}
+{% endif %}
+
+{% if category.description is not empty %}
+    {% set pageDescription = category.description %}
+{% elseif market.description is not empty %}
+    {% set pageDescription = market.description %}
+{% else %}
+    {% set pageDescription = configs.site_description %}
+{% endif %}
+
+{% extends "layouts/default.twig" %}
+
+{% block content %}
+{% include 'elements/navbar.twig' %}
+<div class="container">
+	<div class="row">
+	{% include 'elements/alert.twig' %}
+		<div class="col-md-9 col-sm-9">
+            <div class="row features">
+                {% if configs.item_featured_show %}
+                <div class="col-md-6">
+                    {% include 'elements/hotitem.twig'  %}
+                </div>
+                {% endif %}
+                {% if configs.item_free_show %}
+                <div class="col-md-6">
+                    {% include 'elements/freeitem.twig'  %}
+                </div>
+                {% endif %}
+            </div>
+            {% if configs.item_slider_show %}
+            {% include 'elements/preview.twig' %}
+            {% endif %}
+            <div id="items_index">
+                {% include 'elements/items_index.twig' %}
+            </div>
+
+            {% include 'elements/hotuser.twig' %}
+            </div>
+		<!-- /content -->
+		<div class="col-sm-3">
+			{% include 'elements/sidebar.twig' %}
+		</div><!-- /sidebar -->
+	</div><!-- /row -->
+</div> <!-- /container -->
+<script>document.getElementById('search_query').value = '{{ query }}';</script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% set pageTitle = 'Edit page' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-15">
+
+<script type="text/javascript">
+tinymce.init({
+    selector: '#text',
+    plugins: 'link image code',
+    relative_urls: false
+});
+tinymce.init({
+    selector: '#more',
+    plugins: 'link image code',
+    relative_urls: false
+});
+</script>
+
+        <form method="post" action="{{ siteUrl('/admin/posts/edit/' ~ post.id) }}" id="form" role="form" accept-charset="UTF-8">
+            <div class="row">
+                <div class="col-md-15 form-group">
+                    <label>Post alias</label>
+                    <input type="text" name="alias" id="alias" class="form-control" value="{{ post.alias }}">
+                    <p class="help-block">This would be post address.</p>
+                </div>
+                <div class="col-md-15 form-group">
+                    <label>Post title</label>
+                    <input type="text" name="title" id="title" class="form-control" value="{{ post.title }}">
+                    <p class="help-block">This would be post title on title bar.</p>
+                </div>
+                <div class="col-md-15 form-group">
+                    <label>Post content</label>
+                    <textarea name="text" id="text" class="form-control" rows="10">{{ post.text }}</textarea>
+                </div>
+                <div class="col-md-15 form-group">
+                    <label>Post more content</label>
+                    <textarea name="more" id="more" class="form-control" rows="10">{{ post.more }}</textarea>
+                </div>
+                <div class="col-md-15 form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a href="{{ siteUrl('/admin/posts') }}" class="btn btn-warning">Cancel</a>
+                </div>
+            </div>
+        </form>
+
+	</div>
+</div>
+<!-- /container -->
+{% endblock %}

@@ -1,0 +1,118 @@
+{% set pageTitle = 'Items' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-13">
+		{% include 'elements/admin_alert.twig' %}
+		<div class="row">
+			<div class="col-md-4 pull-left">
+				<form method="get" action="{{ siteUrl('/admin/items/search') }}" role="form" accept-charset="UTF-8">
+					<div class="input-group">
+						<input type="text" class="form-control" name="keyword" value="{{ keyword }}" />
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">Search</button>
+						</span>
+					</div>
+				</form>
+		<script>
+			$('input[name=keyword]').typeahead({
+				name: 'queries',
+				remote: '{{ siteUrl('/search')}}?keyword=\%QUERY'
+			});
+		</script>
+			</div>
+			<div class="pull-right button-right">
+				<a href="{{ siteUrl('/admin/items/add') }}" class="btn btn-primary">Add New Item</a>
+				<a href="{{ siteUrl('/admin/items/new') }}" class="btn btn-primary">Add your Product</a>
+                <a href="{{ siteUrl('/admin/items/csv') }}" class="btn btn-primary">Import from csv</a>
+		        <a href="{{ siteUrl('/admin/items/search_import') }}" class="btn btn-primary">Import by Search</a>
+			</div>
+		</div>
+		<div class="clearfix"><p></p></div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="btn-group btn-group-sm btn-group-justified">
+					<a class="btn btn-default" href="{{ siteUrl('admin/items/index/all') }}"> All </a>
+					{% for market in markets %}
+					    <a href="{{ siteUrl('admin/items/index') ~ '/' ~ market.alias }}" class="btn btn-default">
+					    	{{ market.name }}
+					    </a>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"><p></p></div>
+		<table class="table table-curved table-striped">
+			<thead>
+				<tr>
+                    <th><input type="checkbox" id="unselect_all" /></th>
+					<th width="10%"> Item ID </th>
+					<th width="35%"> Title </th>
+					<th width="10%"> Category </th>
+					<th width="10%"> Last update </th>
+					<th width="5%"> View </th>
+					<th width="30%"> Action </th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in items %}
+				<tr>
+                    <td><input type="checkbox" class="checkItem" name="itemSelected[]" value="{{ item.id }}" /></td>
+					<td> {{ item.id|e }} </td>
+					<td> <a href="{{ siteUrl('/item/' ~ item.slug ~ '/' ~ item.id) }}" target="_blank" title="{{ item.title }}">{{ item.title|e }}</a></td>
+					<td> {{ item.category_name|e }} </td>
+					<td> {{ item.last_update|e }} </td>
+					<td> {{ item.view_count|e }} </td>
+					<td class="col-md-4">
+						<a class="btn btn-xs-admin btn-primary" href="{{ siteUrl('/admin/items/edit') }}/{{ item.id }}" title="Edit">Edit</a>
+						<a class="btn btn-xs-admin btn-danger" href="{{ siteUrl('/admin/items/delete') }}/{{ item.id }}/{{market}}" title="Delete">Delete</a>
+                        {% if item.product == 0 %}
+                        <a class="btn btn-xs-admin btn-default" href="{{ siteUrl('/admin/items/update') }}/{{ item.id }}" title="Update">Update</a>
+                        {% endif %}
+                        <a class="btn btn-xs-admin btn-info" href="{{ siteUrl('/admin/items/stats') }}/{{ item.id }}" title="Stats">Stats</a>
+
+						{% if item.featured == 0 %}
+                        <a class="btn btn-xs-admin btn-success" href="{{ siteUrl('/admin/items/featured') }}/{{ item.id }}/{{market}}" title="Featured">Featured</a>
+						{% else %}
+						<a class="btn btn-xs-admin btn-danger" href="{{ siteUrl('/admin/items/unfeatured') }}/{{ item.id }}/{{market}}" title="Unfeatured">Unfeatured</a>
+                        {% endif %}
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+        <div class="pull-left pager-one">
+            <a class="btn btn-xs-admin btn-danger" id="deleteCheckItem" href="{{ siteUrl('/admin/items/delete') }}" title="Delete">Delete checked</a>
+            <br /><br />
+            {% include 'elements/admin_order.twig' %}
+        </div>
+        <div class="pull-right pager-one">
+            {% include 'elements/admin_pager.twig' %}
+        </div>
+        {#<span class="clearfix"></span>#}
+	</div>
+
+    <script>
+        $('#unselect_all').change(function(){
+            $('.checkItem').prop('checked', !!this.checked);
+        });
+        $('#deleteCheckItem').click(function(e){
+           var ids = [];
+           $('.checkItem:checked').each(function(){
+              ids.push(this.value);
+           });
+           if (ids.length) {
+               $(this).attr('href', '{{ siteUrl('/admin/items/delete') }}/' + ids.join(','), true);
+               return true;
+           }
+           return false;
+        });
+    </script>
+</div>
+<!-- /container -->
+{% endblock %}

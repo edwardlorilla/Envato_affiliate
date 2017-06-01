@@ -1,0 +1,40 @@
+{% set pageTitle = 'Items' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-15">
+            {% include 'elements/admin_alert.twig' %}
+
+            <form method="post" enctype="multipart/form-data" action="">
+                    <div class="form-group">
+                        <label>Category</label>
+                        {% spaceless %}
+                            <select class="form-control" name="category_id" data-live-search="true">
+                                {% for category in categories %}
+                                    <option class="depth-{{ category.depth }}" value="{{ category.id }}"{% if category.category_id == 0 %} disabled="disabled"{% endif %}>
+                                        {{ category.name | raw }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        {% endspaceless %}
+                    </div>
+
+					Your file must be a Semi-colon; separated value (CSV) file to import successfully.
+                    <br>
+					<h4>Title;Description;image;Thumbnail;Url;Price;Success URL;Cancel URL;Download URL;Buy Now Button HTML Code;Demo Link</h4>
+                <table>
+                    <tr>
+                        <td><input type="file" name="csv" /></td>
+                        <td><input type="submit" value="Import" /></td>
+                    </tr>
+                </table>
+            </form>
+	</div>
+</div>
+<!-- /container -->
+{% endblock %}

@@ -1,0 +1,89 @@
+{% set pageTitle = 'Categories' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-15">
+		{% include 'elements/admin_alert.twig' %}
+		<p class="pull-right">
+        <!--<a href="{{ siteUrl('/admin/categories/import') }}" class="btn btn-info">Import Categories</a>-->
+			<a href="{{ siteUrl('/admin/categories/add') }}" class="btn btn-primary">Add New Category</a>
+            <a href="{{ siteUrl('/admin/categories/csv') }}" class="btn btn-primary">Import from csv</a>
+		</p>
+		<table class="table table-curved table-striped">
+			<thead>
+				<tr>
+					{# <th> # </th>  #}
+                    <th> ID </th>
+					<th> Name </th>
+					{# <th> Parent </th> #}
+					<th> Action </th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for category in categories %}
+				<tr>
+                    <td width="50">{{ category.id }}</td>
+					{# <td> {{ category.id|e }} </td> #}
+					<td>
+                        {% if category.category_id != 0 %}
+                            {% for i in 0..category.depth-1 %}---{% endfor %}
+                        {% else %}
+                            <strong>
+                        {% endif %}
+                        {{ category.name|replace({"->":"- - "})|raw }}
+                    </td>
+					{# <td> {{ category.category_name|e }} </td> #}
+					<td class="col-md-2">
+                        <a class="btn btn-xs-admin btn-primary" href="{{ siteUrl('/admin/categories/edit') }}/{{ category.id }}" title="Edit">Edit</a>
+						{% if category.category_id != 0 %}
+						<a class="btn btn-xs-admin btn-danger" href="{{ siteUrl('/admin/categories/delete') }}/{{ category.id }}" title="Delete">Delete</a>
+						{% endif %}
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+                <div class="pull-left pager-one">
+                    <form class="form-inline order" action="">
+                        <select class="form-control input-sm" name="sort">
+                            <option value="name">Name</option>
+                        </select>
+                        <select name="direction" class="form-control input-sm">
+                            <option value="asc">Asc</option>
+                            <option value="desc">Desc</option>
+                        </select>
+                    </form>
+                    <script>
+                        $(document).ready(function() {
+                            var order = $.url().param('sort');
+                            var direct = $.url().param('direction');
+                            if (order != 'undefined') {
+                                    $('form.order select[name=sort]').val(order);
+                            }
+                            if (direct != 'undefined') {
+                                    $('form.order select[name=direction]').val(direct);
+                            }
+                            $('form.order').on('change', function () {
+                                    var order = $(this).find('select[name=sort]').val();
+                                    var direct = $(this).find('select[name=direction]').val();
+                                    var route = '/admin/categories?sort=id&direction=desc'
+                                            .replace(/sort=(.[^&]*)/, 'sort=' + order)
+                                            .replace(/direction=(.[^&]*)/, 'direction=' + direct);
+                                    window.location.href = route;
+                            })
+                        });
+                    </script>
+                </div>
+
+        <div class="pull-right">
+            {% include 'elements/admin_pager.twig' %}
+        </div>
+	</div>
+</div>
+<!-- /container -->
+{% endblock %}

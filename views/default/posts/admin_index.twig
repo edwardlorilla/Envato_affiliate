@@ -1,0 +1,40 @@
+{% set postTitle = 'Pages' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+    {% include 'elements/admin_navbar.twig' %}
+    <div class="admin_container" style="margin-top:5%">
+        <div class="col-md-3">
+            {% include 'elements/admin_sidebar.twig' %}
+        </div>
+        <div class="col-md-15">
+            {% include 'elements/admin_alert.twig' %}
+            <p class="pull-right">
+                <a href="{{ siteUrl('/admin/posts/add') }}" class="btn btn-primary">Add New Post</a>
+            </p>
+            <table class="table table-curved table-striped">
+                <thead>
+                <tr>
+                    <th class="col-md-5"> Title </th>
+                    <th class="col-md-3"> Create </th>
+                    <th class="col-md-2"> Action </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for post in posts %}
+                    <tr>
+                        <td> <a href="{{ siteUrl('/blog/' ~ post.alias) }}" title="{{ post.title }}">{{ post.title|e }}</a> </td>
+                        <td> {{ post.created_at|e }} </td>
+                        <td>
+                            <a class="btn btn-xs-admin btn-primary" href="{{ siteUrl('/admin/posts/edit') }}/{{ post.id }}" title="Edit">Edit</a>
+                            <a class="btn btn-xs-admin btn-danger" href="{{ siteUrl('/admin/posts/delete') }}/{{ post.id }}" title="Delete">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% include 'elements/admin_pager.twig' %}
+        </div>
+    </div>
+    <!-- /container -->
+{% endblock %}

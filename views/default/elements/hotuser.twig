@@ -1,0 +1,28 @@
+{% if userhot is not empty %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2 col-sm-2">
+                    <a href="{{ userhot.url }}?ref={{ configs.envato_username }}">
+                        <img src="{{ userhot.thumbnail }}" alt="{{ userhot.user }}" width="80" height="80">
+                    </a>
+                </div>
+                <div class="featured-author__info">
+                    <h3>
+                        {{ lang.Featured_Author }} :
+                        <a href="{{ userhot.url }}?ref={{ configs.envato_username }}">{{ userhot.user }}</a>
+                    </h3>
+                    <p>
+                        This week's featured author is <a href="{{ userhot.url }}?ref={{ configs.envato_username }}">{{ userhot.user }}</a> ,
+                        {% if userhot.item_count == 0 %}
+                            who has one item here yet.
+                        {% else %}
+                            who has {{ userhot.item_count }}
+                            {% if userhot.item_count == 1 %}item{% else %}items{% endif %}.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

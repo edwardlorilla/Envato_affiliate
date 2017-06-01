@@ -1,0 +1,12 @@
+RewriteEngine On
+ 
+RewriteCond %{THE_REQUEST} ^GET.*index\.php [NC]
+RewriteRule (.*?)index\.php/*(.*) /$1$2 [R=301,NE,L]
+ 
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]
+
+<files ~ "\.(twig)$">
+order deny,allow
+deny from all
+</files>

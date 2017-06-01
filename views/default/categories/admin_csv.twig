@@ -1,0 +1,28 @@
+{% set pageTitle = 'Import categories' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-15">
+            {% include 'elements/admin_alert.twig' %}
+            <form method="post" enctype="multipart/form-data" action="">
+                <p>
+                    Your file must be a Semi-colon; separated value (CSV) file to import successfully.
+                    <br>
+                    <h4>Category Name;Category description;Alias Name;Parent Category Id</h4>
+                </p>
+                <table>
+                    <tr>
+                        <td><input type="file" name="csv" /></td>
+                        <td><input type="submit" value="Import" /></td>
+                    </tr>
+                </table>
+            </form>
+	</div>
+</div>
+<!-- /container -->
+{% endblock %}

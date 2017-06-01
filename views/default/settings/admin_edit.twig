@@ -1,0 +1,29 @@
+{% set pageTitle = 'Edit setting' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+{% include 'elements/admin_navbar.twig' %}
+<div class="admin_container" style="margin-top:5%">
+	<div class="col-md-3">
+		{% include 'elements/admin_sidebar.twig' %}
+	</div>
+	<div class="col-md-15">
+
+		<form method="post" action="{{ siteUrl('/admin/settings/edit/' ~ setting.id) }}" role="form" accept-charset="UTF-8">
+			<div class="row">
+				<div class="col-md-15 form-group">
+					<label>{{ setting.label|e }}</label>
+					<textarea name="value" rows="3" class="form-control ignore">{{ setting.value|trim }}</textarea>
+					<p class="help-block">{{ setting.help|e }}.</p>
+				</div>
+				<div class="col-md-15 form-group">
+					<button type="submit" class="btn btn-primary">Submit</button>
+					<a href="{{ siteUrl('/admin/categories') }}" class="btn btn-warning">Cancel</a>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</div>
+<!-- /container -->
+{% endblock %}

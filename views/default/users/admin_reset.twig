@@ -1,0 +1,28 @@
+{% set pageTitle = 'Rest Password' %}
+{% extends "layouts/admin.twig" %}
+
+{% block content %}
+<div class="admin_container">
+
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4 well_l" style="margin-top: 10%;">
+			<legend>Admin Control Panel</legend>
+
+            {% include 'elements/admin_alert.twig' %}
+
+			<form method="post" action="{{ siteUrl('/admin/reset') }}" role="form" accept-charset="UTF-8">
+				<div class="form-group">
+					<input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" name="email" placeholder="Email Address" required autofocus>
+				</div>
+				<button type="submit" class="btn btn-primary"> Reset </button>
+				<a href="{{ siteUrl('/admin/login')}}" class="btn btn-danger">Login</a>
+			</form>
+		</div>
+	</div>
+
+</div>
+<!-- /container -->
+{% endblock %}

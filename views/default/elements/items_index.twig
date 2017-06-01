@@ -1,0 +1,85 @@
+<div class="panel panel-default">
+        <div class="panel-heading clearfix">
+                <div class="pull-left pager-one">
+                        {% include 'elements/order.twig' %}
+                </div>
+                <div class="pull-right pager-one">
+                        {% include 'elements/pager.twig' %}
+                </div>
+                <span class="clearfix"></span>
+        </div>
+        <div class="panel-body" style="position: relative;">
+            <div id="items_preload" style="position: absolute; left:0; top:0; width: 100%; height: 100%; opacity: .5; background-color: #fff; z-index: 10; display: none;"></div>
+            <div class="row" style="position: relative; z-index: 0;">
+
+{% if items is empty %}
+<div class="col-lg-12">
+    <p>There are no items available yet.</p>
+</div>
+{% endif %}
+
+                        {% for item in items %}
+    {% set itemImage = (item.product != 1 ? item.image : siteUrl('/cache/' ~ item.image)) %}
+    {% set itemThumb = (item.product != 1 ? item.thumbnail : siteUrl('/cache/' ~ item.thumbnail)) %}
+                                <div class="col-md-14 item">
+                                        <div id="{{ 'item-' ~ item.id }}">
+                                                <a href="{{ siteUrl('/item/' ~ item.slug ~ '/' ~ item.id) }}" title="{{ item.title }}">
+                <img src="{% if itemThumb != '' %}{{ itemThumb }}{% else %}http://placehold.it/80x80{% endif %}" alt="{{ item.title }}" class="center-block" width="80" height="80">
+                                                </a>
+                                                <div class="caption">
+                                                        <h5>
+                                                                <a href="{{ siteUrl('/item/' ~ item.slug ~ '/' ~ item.id) }}" title="{{ item.title }}">
+                                                                        {{ item.title }}
+                                                                </a>
+                                                        </h5>
+                                                        {% if configs.item_rating_show %}
+                                                        {{ itemRate(item.rating)|raw }}
+                                                        {% endif %}
+							{% if configs.item_sales_show and configs.item_cost_show and item.product != 1 and item.product != 2 %}
+                            <p class="-lead text-muted">
+							{{ item.sales }} Sales | ${{ item.price }}
+                            </p>
+							{% elseif configs.item_cost_show %}
+							<p class="-lead text-muted">
+							${{ item.price }}
+							</p>
+							{% elseif configs.item_sales_show and item.product != 1 and item.product != 2 %}
+							<p class="-lead text-muted">
+							{{ item.sales }} Sales
+							</p>
+                            {% endif %}
+                                                </div>
+                                        </div>
+                                </div>
+                                <script type="text/javascript">
+                                        $(document).ready(function(){
+                                            var img = '<img src="{{ itemImage }}" class="img-responsive" />';
+                                                $('#{{ 'item-' ~ item.id }}').popover({
+										        title: '{{ item.title }}', placement: wheretoplacepop, content: img, trigger: 'hover', html: true,container: 'body',
+										        template: '<div class="popover preview-items"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"><div class="data-content"></div></div></div>'
+                                                });
+                                        });
+function wheretoplacepop(){
+    var width = window.innerWidth;
+    if (width<500) return 'auto';
+    return 'auto';
+}
+                                </script>
+                                {% if (loop.index % 5 == 0) and loop.index <= ((loop.length / 5) - 1) * 5 %}
+                                <span class="clearfix"></span>
+                                <hr />
+                                {% endif %}
+                        {% endfor %}
+                </div>
+                <span class="clearfix"></span>
+        </div>
+        <div class="panel-footer clearfix">
+                <div class="pull-left pager-two">
+                        {% include 'elements/order.twig' %}
+                </div>
+                <div class="pull-right pager-two">
+                        {% include 'elements/pager.twig' %}
+                </div>
+                <span class="clearfix"></span>
+        </div>
+</div>

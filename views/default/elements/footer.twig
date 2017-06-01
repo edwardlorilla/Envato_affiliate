@@ -1,0 +1,58 @@
+<div class="container">
+<div id="footer">
+<div id="navbar-tertiary" class="navbar navbar-static-bottom navbar-default">
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex3-collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+	</div>
+	<div class="collapse navbar-collapse navbar-ex3-collapse pull-left">
+	{% if (pages is not empty) or (configs.contacts_footer_link) or (configs.blog_footer_link) %}
+		<ul class="nav navbar-nav">
+        {% if configs.contacts_footer_link %}
+            <li><a href="{{ siteUrl('/contacts') }}">Contact</a></li>
+        {% endif %}
+        {% if configs.blog_footer_link %}
+            <li><a href="{{ siteUrl('/blog') }}">blog</a></li>
+        {% endif %}
+		{% for page in pages %}
+		    <li><a href="{{ siteUrl('/') ~ page.alias }}">{{ page.title }}</a></li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+	</div>
+	<div class="pull-right">
+		{% if configs.social_facebook is not empty %}
+		<a class="btn btn-primary social-btn social-facebook" href="http://facebook.com/{{ configs.social_facebook }}">
+			<i class="fa fa-facebook fa-2x"></i>
+		</a>
+		{% endif %}
+		{% if configs.social_twitter is not empty %}
+		<a class="btn btn-primary social-btn social-twitter" href="http://twitter.com/{{ configs.social_twitter }}">
+			<i class="fa fa-twitter fa-2x"></i>
+		</a>
+		{% endif %}
+		{% if configs.social_google is not empty %}
+		<a class="btn btn-primary social-btn social-google" href="http://plus.google.com/{{ configs.social_google }}">
+			<i class="fa fa-google-plus fa-2x"></i>
+		</a>
+		{% endif %}
+	</div>
+	</div>
+</div>
+</div>
+{% if (configs.google_analytics_id is not empty) and (configs.google_analytics_domain) %}
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', '{{ configs.google_analytics_id }}', '{{ configs.google_analytics_domain }}');
+    ga('send', 'pageview');
+
+</script>
+{% endif %}

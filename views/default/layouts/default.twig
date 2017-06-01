@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<title>{{ configs.site_name|escape|striptags|trim }} - {{ pageTitle|escape|striptags|trim }}</title>
+
+	<meta charset="utf-8">
+	<meta name="description" content="{{ pageDescription|striptags|trim }}" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="{{ baseUrl() }}/favicon.ico" type="image/x-icon" rel="icon" />
+	<link href="{{ baseUrl() }}/public/default/css/bootstrap.min.css" rel="stylesheet">
+	<link href="{{ baseUrl() }}/public/default/css/font-awesome.min.css" rel="stylesheet">
+	<link href="{{ baseUrl() }}/public/default/css/bootstrap-custom.css" rel="stylesheet">
+	<link href="{{ baseUrl() }}/public/default/css/sticky-footer.css" rel="stylesheet">
+	<link href="{{ baseUrl() }}/public/default/css/bootstrap-typeahead.css" rel="stylesheet">
+	<link href="{{ baseUrl() }}/public/default/css/owl.carousel.css" rel="stylesheet">
+    <link href="{{ baseUrl() }}/public/default/css/jquery-ui.min.css" rel="stylesheet">
+
+	<script type="text/javascript" src="{{ baseUrl() }}/public/default/js/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ baseUrl() }}/public/default/js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="{{ baseUrl() }}/public/default/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="{{ baseUrl() }}/public/default/js/typeahead.min.js"></script>
+	<script type="text/javascript" src="{{ baseUrl() }}/public/default/js/purl.min.js"></script>
+	<script type="text/javascript" src="{{ baseUrl() }}/public/default/js/owl.carousel.min.js"></script>
+
+	{% if current_market == 'videohive' %}
+		<script type="text/javascript" src="{{ baseUrl() }}/public/default/jwplayer/jwplayer.js"></script>
+	{% endif %}
+
+	{% if current_market == 'audiojungle' %}
+		<link href="{{ baseUrl() }}/public/default/jplayer/skins/premium-pixels.css" rel="stylesheet">
+	    <script type="text/javascript" src="{{ baseUrl() }}/public/default/jplayer/js/jquery.jplayer.min.js"></script>
+	{% endif %}
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.col-md-14 img, .well img, div img').addClass('img-responsive');
+		});
+	</script>
+
+	<!--[if lt IE 9]>
+        <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+	{# {% spaceless %} #}
+		{% block content %}{% endblock %}
+	{# {% endspaceless %} #}
+	{% include 'elements/footer.twig' %}
+  </body>
+</html>
